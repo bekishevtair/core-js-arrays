@@ -20,9 +20,8 @@
  *    getIntervalArray(0, 100) => [ 0, 1, 2, ..., 100 ]
  *    getIntervalArray(3, 3) => [ 3 ]
  */
-function getIntervalArray(/* start, end */) {
-  throw new Error('Not implemented');
-}
+function getIntervalArray(/* start, end */) {}
+getIntervalArray(-2, 10);
 
 /**
  * Returns a new array where each element is the sum of the corresponding elements
@@ -37,9 +36,13 @@ function getIntervalArray(/* start, end */) {
  *    sumArrays([10, 20, 30], [5, 10, 15]) => [15, 30, 45]
  *    sumArrays([-1, 0, 1], [1, 2, 3, 4]) => [0, 2, 4, 4]
  */
-function sumArrays(/* arr1, arr2 */) {
-  throw new Error('Not implemented');
+function sumArrays(arr1, arr2) {
+  const newArr = arr1.map((el, index) => {
+    return el + arr2[index];
+  });
+  return newArr;
 }
+sumArrays([1, 2, 3], [4, 5, 6, 9]);
 
 /**
  * Returns an index of the specified element in array or -1 if element is not found.
@@ -53,9 +56,10 @@ function sumArrays(/* arr1, arr2 */) {
  *    findElement(['Array', 'Number', 'string'], 'Date') => -1
  *    findElement([0, 1, 2, 3, 4, 5], 5) => 5
  */
-function findElement(/* arr, value */) {
-  throw new Error('Not implemented');
+function findElement(arr, value) {
+  return arr.indexOf(value);
 }
+findElement(['Ace', 10, true], 10);
 
 /**
  * Returns a number of all occurrences of the specified item in an array.
@@ -71,9 +75,16 @@ function findElement(/* arr, value */) {
  *    findAllOccurrences([ null, undefined, null ], null) => 2
  *    findAllOccurrences([ true, 0, 1, 'true' ], true) => 1
  */
-function findAllOccurrences(/* arr, item */) {
-  throw new Error('Not implemented');
+function findAllOccurrences(arr, item) {
+  let count = 0;
+  return arr.reduce((acc, curr) => {
+    if (curr === item) {
+      count += 1;
+    }
+    return count;
+  }, 0);
 }
+findAllOccurrences([0, 0, 1, 1, 1, 2], 1);
 
 /**
  * Removes falsy values from the specified array.
@@ -87,8 +98,9 @@ function findAllOccurrences(/* arr, item */) {
  *    removeFalsyValues([ 1, 2, 3, 4, 5, 'false' ]) => [ 1, 2, 3, 4, 5, 'false' ]
  *    removeFalsyValues([ false, 0, NaN, '', undefined ]) => [ ]
  */
-function removeFalsyValues(/* arr */) {
-  throw new Error('Not implemented');
+function removeFalsyValues(arr) {
+  const newArr = arr.filter((el) => !!el !== false);
+  return newArr;
 }
 
 /**
@@ -101,9 +113,12 @@ function removeFalsyValues(/* arr */) {
  *    getStringsLength([ '', 'a', 'bc', 'def', 'ghij' ]) => [ 0, 1, 2, 3, 4 ]
  *    getStringsLength([ 'angular', 'react', 'ember' ]) => [ 7, 5, 5 ]
  */
-function getStringsLength(/* arr */) {
-  throw new Error('Not implemented');
+function getStringsLength(arr) {
+  return arr.map((string) => {
+    return string.length;
+  });
 }
+getStringsLength(['', 'a', 'bc', 'def', 'ghij']);
 
 /**
  * Returns the average of all items in the specified array of numbers.
