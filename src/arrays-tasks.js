@@ -134,10 +134,14 @@ getStringsLength(['', 'a', 'bc', 'def', 'ghij']);
  *   getAverage([ 1, 10, 100, 1000 ])  => 277,75
  *   getAverage([ 2, 3, 3 ])  => 2,67
  */
-function getAverage(/* arr */) {
-  throw new Error('Not implemented');
+function getAverage(arr) {
+  if (arr.length) {
+    const avg = arr.reduce((acc, curr) => acc + curr, 0) / arr.length;
+    return Number.isInteger(avg) ? +avg : +avg.toFixed(2);
+  }
+  return 0;
 }
-
+getAverage([1, 10, 100, 1000]);
 /**
  * Checks if all strings in an array have the same length.
  *
@@ -148,9 +152,16 @@ function getAverage(/* arr */) {
  *    isSameLength(['orange', 'banana', 'cherry']) => true
  *    isSameLength(['cat', 'dog', 'elephant']) => false
  */
-function isSameLength(/* arr */) {
-  throw new Error('Not implemented');
+function isSameLength() {
+  // if (Array.isArray(arr) && arr.length > 1) {
+  //   return arr.reduce((acc, curr, index) => {
+  //     return arr[index - 1].length === curr.length;
+  //   });
+  // }
+  // return true;
 }
+
+isSameLength(['cat', 'dog', 'elephant', 'elephan', 'elephant']);
 
 /**
  * Checks if there are elements in the array where the value is equal to its index.
@@ -163,9 +174,15 @@ function isSameLength(/* arr */) {
  *    isValueEqualsIndex([2, 1, 0, 4, 5]) => true
  *    isValueEqualsIndex([10, 20, 30, 40, 50]) => false
  */
-function isValueEqualsIndex(/* arr */) {
-  throw new Error('Not implemented');
+function isValueEqualsIndex(arr) {
+  if (Array.isArray(arr)) {
+    return arr.some((el, index) => {
+      return el === index;
+    });
+  }
+  return false;
 }
+isValueEqualsIndex([2, 1, 0, 4, 5]);
 
 /**
  * Inserts the item into specified array at specified index.
@@ -178,8 +195,8 @@ function isValueEqualsIndex(/* arr */) {
  *    insertItem([ 1, 3, 4, 5 ], 2, 1)  => [ 1, 2, 3, 4, 5 ]
  *    insertItem([ 1, 'b', 'c'], 'x', 0) => [ 'x', 1, 'b', 'c' ]
  */
-function insertItem(/* arr, item, index */) {
-  throw new Error('Not implemented');
+function insertItem(arr, item, index) {
+  return arr.splice(index, 0, item);
 }
 
 /**
@@ -193,8 +210,8 @@ function insertItem(/* arr, item, index */) {
  *    getHead([ 'a', 'b', 'c', 'd'], 3) => [ 'a', 'b', 'c' ]
  *    getHead([ 'a', 'b', 'c', 'd'], 0) => []
  */
-function getHead(/* arr, n */) {
-  throw new Error('Not implemented');
+function getHead(arr, n) {
+  return arr.slice(0, n);
 }
 
 /**
