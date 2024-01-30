@@ -20,8 +20,14 @@
  *    getIntervalArray(0, 100) => [ 0, 1, 2, ..., 100 ]
  *    getIntervalArray(3, 3) => [ 3 ]
  */
-function getIntervalArray(/* start, end */) {}
-getIntervalArray(-2, 10);
+function getIntervalArray(start, end) {
+  let v = start - 1;
+  return Array.from({ length: end - start + 1 }, () => {
+    v += 1;
+    return v;
+  });
+}
+getIntervalArray(-2, 5);
 
 /**
  * Returns a new array where each element is the sum of the corresponding elements
@@ -152,13 +158,13 @@ getAverage([1, 10, 100, 1000]);
  *    isSameLength(['orange', 'banana', 'cherry']) => true
  *    isSameLength(['cat', 'dog', 'elephant']) => false
  */
-function isSameLength() {
-  // if (Array.isArray(arr) && arr.length > 1) {
-  //   return arr.reduce((acc, curr, index) => {
-  //     return arr[index - 1].length === curr.length;
-  //   });
-  // }
-  // return true;
+function isSameLength(arr) {
+  if (Array.isArray(arr) && arr.length > 1) {
+    return arr.some((el, index) => {
+      return el.length === el[index + 1].length || false;
+    });
+  }
+  return true;
 }
 
 isSameLength(['cat', 'dog', 'elephant', 'elephan', 'elephant']);
@@ -225,9 +231,13 @@ function getHead(arr, n) {
  *    getTail([ 'a', 'b', 'c', 'd'], 3) => [ 'b', 'c', 'd' ]
  *    getTail([ 'a', 'b', 'c', 'd'], 0) => []
  */
-function getTail(/* arr, n */) {
-  throw new Error('Not implemented');
+function getTail(arr, n) {
+  if (n === 0) {
+    return [];
+  }
+  return arr.slice(-n);
 }
+getTail(['a', 'b', 'c', 'd'], 3);
 
 /**
  * Returns the doubled array - elements of the specified array
@@ -241,8 +251,8 @@ function getTail(/* arr, n */) {
  *    doubleArray([0, 1, 2, 3, 4, 5]) => [0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5]
  *    doubleArray([]) => []
  */
-function doubleArray(/* arr */) {
-  throw new Error('Not implemented');
+function doubleArray(arr) {
+  return arr.concat(arr);
 }
 
 /**
@@ -256,9 +266,10 @@ function doubleArray(/* arr */) {
  *    toStringList([1, 2, 3, 4, 5]) => '1,2,3,4,5'
  *    toStringList(['rock', 'paper', 'scissors']) => 'rock,paper,scissors'
  */
-function toStringList(/* arr */) {
-  throw new Error('Not implemented');
+function toStringList(arr) {
+  return arr.join(',');
 }
+toStringList([0, false, 'cat', NaN, true, '']);
 
 /**
  * Returns array containing only unique values from the specified array.
@@ -272,8 +283,8 @@ function toStringList(/* arr */) {
  *   distinct([ 1, 1, 2, 2, 3, 3, 4, 4]) => [ 1, 2, 3, 4]
  *   distinct([]) => []
  */
-function distinct(/* arr */) {
-  throw new Error('Not implemented');
+function distinct(arr) {
+  return Array.from(new Set(arr));
 }
 
 /**
@@ -304,8 +315,8 @@ function createNDimensionalArray(/* n, size */) {
  *    flattenArray(['a', ['b', ['c', 'd'], 'e'], 'f']) => ['a', 'b', 'c', 'd', 'e', 'f']
  *    flattenArray([1, 2, 3, 4]) => [1, 2, 3, 4]
  */
-function flattenArray(/* nestedArray */) {
-  throw new Error('Not implemented');
+function flattenArray(nestedArray) {
+  return nestedArray.flat(Infinity);
 }
 
 /**
@@ -338,8 +349,12 @@ function selectMany(/* arr, childrenSelector */) {
  *   calculateBalance([ [ 10, 8 ], [ 1, 5 ] ])  => (10 - 8) + (1 - 5) = 2 + -4 = -2
  *   calculateBalance([]) => 0
  */
-function calculateBalance(/* arr */) {
-  throw new Error('Not implemented');
+function calculateBalance(arr) {
+  return arr.reduce((acc, month) => {
+    let sum = acc;
+    sum += month[0] - month[1];
+    return sum;
+  }, 0);
 }
 
 /**
@@ -370,8 +385,12 @@ function createChunks(/* arr, chunkSize */) {
  *    generateOdds(2) => [ 1, 3 ]
  *    generateOdds(5) => [ 1, 3, 5, 7, 9 ]
  */
-function generateOdds(/* len */) {
-  throw new Error('Not implemented');
+function generateOdds(len) {
+  let v = -1;
+  return Array.from({ length: len }, () => {
+    v += 2;
+    return v;
+  });
 }
 
 /**
@@ -387,8 +406,24 @@ function generateOdds(/* len */) {
  *   getElementByIndices([[[ 1, 2, 3]]], [ 0, 0, 1 ]) => 2        (arr[0][0][1])
  */
 function getElementByIndices(/* arr, indices */) {
-  throw new Error('Not implemented');
+  // const findAt = (nestedEl, index) => {
+  //   if (Array.isArray(nestedEl)) {
+  //     console.log(findAt(nestedEl.at(index + 1)));
+  //   }
+  //   return nestedEl;
+  // };
+  // arr.forEach((el) => {
+  //   console.log(findAt(el, indices[0]));
+  // });
 }
+getElementByIndices(
+  [
+    [1, 2],
+    [3, 4],
+    [5, 6],
+  ],
+  [2, 0]
+);
 
 /**
  * Returns the number of all falsy values in the specified array.
@@ -402,9 +437,18 @@ function getElementByIndices(/* arr, indices */) {
  *  getFalsyValuesCount([ -1, 'false', null, 0 ]) => 2
  *  getFalsyValuesCount([ null, undefined, NaN, false, 0, '' ]) => 6
  */
-function getFalsyValuesCount(/* arr */) {
-  throw new Error('Not implemented');
+function getFalsyValuesCount(arr) {
+  let count = 0;
+  if (arr.length) {
+    arr.forEach((el) => {
+      if (!!el === false) {
+        count += 1;
+      }
+    });
+  }
+  return count;
 }
+getFalsyValuesCount([-1, 'false', null, 0]);
 
 /**
  * Creates an identity matrix of the specified size.
@@ -439,9 +483,16 @@ function getIdentityMatrix(/* n */) {
  *    getIndicesOfOddNumbers([2, 4, 6, 8, 10]) => []
  *    getIndicesOfOddNumbers([11, 22, 33, 44, 55]) => [0, 2, 4]
  */
-function getIndicesOfOddNumbers(/* numbers */) {
-  throw new Error('Not implemented');
+function getIndicesOfOddNumbers(numbers) {
+  const idArr = [];
+  numbers.forEach((n, id) => {
+    if (n % 2 !== 0) {
+      idArr.push(id);
+    }
+  });
+  return idArr;
 }
+getIndicesOfOddNumbers([11, 22, 33, 44, 55]);
 
 /**
  * Returns the array of RGB Hex strings from the specified array of numbers.
@@ -487,9 +538,18 @@ function getMaxItems(/* arr, n */) {
  *    findCommonElements(['a', 'b', 'c'], ['b', 'c', 'd']) => [ 'b', 'c' ]
  *    findCommonElements([1, 2, 3], ['a', 'b', 'c']) => []
  */
-function findCommonElements(/* arr1, arr2 */) {
-  throw new Error('Not implemented');
+function findCommonElements(arr1, arr2) {
+  const newArr = [];
+  arr1.forEach((el) => {
+    arr2.forEach((el2) => {
+      if (el === el2) {
+        newArr.push(el);
+      }
+    });
+  });
+  return newArr;
 }
+findCommonElements(['a', 'b', 'c'], ['b', 'c', 'd']);
 
 /**
  * Finds the length of the longest increasing subsequence of a given array of integers.
