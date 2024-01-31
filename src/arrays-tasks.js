@@ -46,9 +46,15 @@ function sumArrays(arr1, arr2) {
   const newArr = arr1.map((el, index) => {
     return el + arr2[index];
   });
+  if (arr1.length > arr2.length) {
+    newArr.push(arr1[arr1.length - 1]);
+  } else if (arr1.length < arr2.length) {
+    newArr.push(arr2[arr2.length - 1]);
+  }
+  console.log(newArr);
   return newArr;
 }
-sumArrays([1, 2, 3], [4, 5, 6, 9]);
+sumArrays([1, 2, 3], [4, 5, 6, 10]);
 
 /**
  * Returns an index of the specified element in array or -1 if element is not found.
@@ -580,9 +586,17 @@ function findLongestIncreasingSubsequence(/* nums */) {
  *  propagateItemsByPositionIndex([ 'a', 'b', 'c', null ]) => [ 'a', 'b', 'b', 'c', 'c', 'c',  null, null, null, null ]
  *  propagateItemsByPositionIndex([ 1,2,3,4,5 ]) => [ 1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5 ]
  */
-function propagateItemsByPositionIndex(/* arr */) {
-  throw new Error('Not implemented');
+function propagateItemsByPositionIndex(arr) {
+  const newArr = arr
+    .map((el, index) => {
+      const nestedArray = Array(index + 1).fill(el);
+      return nestedArray;
+    })
+    .flat(Infinity);
+  // console.log(newArr);
+  return newArr;
 }
+propagateItemsByPositionIndex(['a', 'b', 'c', null]);
 
 /**
  * Shifts an array by n positions. If n is negative, the array is shifted to the left;
@@ -597,8 +611,9 @@ function propagateItemsByPositionIndex(/* arr */) {
  *    shiftArray(['a', 'b', 'c', 'd'], -1) => ['b', 'c', 'd', 'a']
  *    shiftArray([10, 20, 30, 40, 50], -3) => [40, 50, 10, 20, 30]
  */
-function shiftArray(/* arr, n */) {
-  throw new Error('Not implemented');
+function shiftArray(arr, n) {
+  const newArr = Array.from(new Set(arr.slice(-n).concat(arr)));
+  return newArr;
 }
 
 /**
@@ -637,9 +652,18 @@ function sortDigitNamesByNumericOrder(/* arr */) {
  *   swapHeadAndTail([]) => []
  *
  */
-function swapHeadAndTail(/* arr */) {
-  throw new Error('Not implemented');
+function swapHeadAndTail(arr) {
+  if (arr.length && arr.length > 1) {
+    const newArr = arr
+      .slice(Math.ceil(arr.length / 2))
+      .concat(arr.slice(Math.floor(arr.length / 2), Math.ceil(arr.length / 2)))
+      .concat(arr.slice(0, Math.floor(arr.length / 2)));
+    return newArr;
+  }
+
+  return arr;
 }
+swapHeadAndTail([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]);
 
 module.exports = {
   getIntervalArray,
