@@ -51,7 +51,7 @@ function sumArrays(arr1, arr2) {
   } else if (arr1.length < arr2.length) {
     newArr.push(arr2[arr2.length - 1]);
   }
-  console.log(newArr);
+  // console.log(newArr);
   return newArr;
 }
 sumArrays([1, 2, 3], [4, 5, 6, 10]);
@@ -165,12 +165,8 @@ getAverage([1, 10, 100, 1000]);
  *    isSameLength(['cat', 'dog', 'elephant']) => false
  */
 function isSameLength(arr) {
-  if (Array.isArray(arr) && arr.length > 1) {
-    return arr.some((el, index) => {
-      return el.length === el[index + 1].length || false;
-    });
-  }
-  return true;
+  const firstLength = arr[0].length;
+  return arr.every((el) => el.length === firstLength);
 }
 
 isSameLength(['cat', 'dog', 'elephant', 'elephan', 'elephant']);
@@ -306,8 +302,15 @@ function distinct(arr) {
  *    createNDimensionalArray(4, 2) => [[[[0, 0], [0, 0]], [[0, 0], [0, 0]]], [[[0, 0], [0, 0]], [[0, 0], [0, 0]]]]
  *    createNDimensionalArray(1, 1) => [0]
  */
-function createNDimensionalArray(/* n, size */) {
-  throw new Error('Not implemented');
+function createNDimensionalArray(n, size) {
+  if (n === 1) {
+    return Array(size).fill(0);
+  }
+  return Array(size)
+    .fill(0)
+    .map(() => {
+      return createNDimensionalArray(n - 1, size);
+    });
 }
 
 /**
@@ -528,9 +531,10 @@ function getHexRGBValues(/* arr */) {
  *   getMaxItems([ 10, 2, 7, 5, 3, -5 ], 3) => [ 10, 7, 5 ]
  *   getMaxItems([ 10, 10, 10, 10 ], 3) => [ 10, 10, 10 ]
  */
-function getMaxItems(/* arr, n */) {
-  throw new Error('Not implemented');
+function getMaxItems(arr, n) {
+  const newArr = [];
 }
+getMaxItems([10, 2, 7, 5, 3, -5], 3);
 
 /**
  * Finds and returns an array containing only the common elements found in two arrays.
@@ -568,9 +572,24 @@ findCommonElements(['a', 'b', 'c'], ['b', 'c', 'd']);
  *    findLongestIncreasingSubsequence([3, 10, 2, 1, 20]) => 2
  *    findLongestIncreasingSubsequence([50, 3, 10, 7, 40, 80]) => 3
  */
-function findLongestIncreasingSubsequence(/* nums */) {
-  throw new Error('Not implemented');
+function findLongestIncreasingSubsequence(nums) {
+  const arrLength = [];
+  if (Array.isArray(nums) && nums.length > 1) {
+    let count;
+    nums.reduce((acc, el, id) => {
+      count = acc;
+      if (el > nums[id - 1]) {
+        count += 1;
+      } else {
+        count = 1;
+      }
+      arrLength.push(count);
+      return count;
+    }, 0);
+  }
+  return Math.max(...arrLength);
 }
+findLongestIncreasingSubsequence([10, 22, 9, 33, 21, 50, 41, 60, 80]);
 
 /**
  * Propagates every item in sequence its position times
