@@ -414,25 +414,16 @@ function generateOdds(len) {
  *   getElementByIndices(['one','two','three'], [2]) => 'three'  (arr[2])
  *   getElementByIndices([[[ 1, 2, 3]]], [ 0, 0, 1 ]) => 2        (arr[0][0][1])
  */
-function getElementByIndices(/* arr, indices */) {
-  // const findAt = (nestedEl, index) => {
-  //   if (Array.isArray(nestedEl)) {
-  //     console.log(findAt(nestedEl.at(index + 1)));
-  //   }
-  //   return nestedEl;
-  // };
-  // arr.forEach((el) => {
-  //   console.log(findAt(el, indices[0]));
-  // });
+function getElementByIndices(arr, indices) {
+  console.log(
+    getElementByIndices(arr[indices.splice(1, 2)[0]], indices.splice(1, 2)[0])
+  );
+  return getElementByIndices(
+    arr[indices.splice(1, 2)[0]],
+    indices.splice(1, 2)[0]
+  );
 }
-getElementByIndices(
-  [
-    [1, 2],
-    [3, 4],
-    [5, 6],
-  ],
-  [2, 0]
-);
+getElementByIndices([[[1, 2, 3]]], [1, 0, 1]);
 
 /**
  * Returns the number of all falsy values in the specified array.
