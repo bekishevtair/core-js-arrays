@@ -378,9 +378,12 @@ function calculateBalance(arr) {
  *    createChunks(['a', 'b', 'c', 'd', 'e'], 2) => [['a', 'b'], ['c', 'd'], ['e']]
  *    createChunks([10, 20, 30, 40, 50], 1) => [[10], [20], [30], [40], [50]]
  */
-function createChunks(/* arr, chunkSize */) {
-  throw new Error('Not implemented');
+function createChunks(arr, chunkSize) {
+  return Array.from({ length: Math.ceil(arr.length / chunkSize) }, (_, index) =>
+    arr.slice(index * chunkSize, (index + 1) * chunkSize)
+  );
 }
+createChunks([1, 2, 3, 4, 5, 6, 7], 3);
 
 /**
  * Generates an array of odd numbers of the specified length.
@@ -415,12 +418,9 @@ function generateOdds(len) {
  *   getElementByIndices([[[ 1, 2, 3]]], [ 0, 0, 1 ]) => 2        (arr[0][0][1])
  */
 function getElementByIndices(arr, indices) {
-  console.log(
-    getElementByIndices(arr[indices.splice(1, 2)[0]], indices.splice(1, 2)[0])
-  );
-  return getElementByIndices(
-    arr[indices.splice(1, 2)[0]],
-    indices.splice(1, 2)[0]
+  return indices.reduce(
+    (result, index) => (result !== undefined ? result[index] : undefined),
+    arr
   );
 }
 getElementByIndices([[[1, 2, 3]]], [1, 0, 1]);
@@ -468,9 +468,22 @@ getFalsyValuesCount([-1, 'false', null, 0]);
  *                              [0,0,0,1,0],
  *                              [0,0,0,0,1]]
  */
-function getIdentityMatrix(/* n */) {
-  throw new Error('Not implemented');
+function getIdentityMatrix(n) {
+  const res = Array.from({ length: n }, (_, i) => {
+    return Array.from({ length: n }, (__, j) => {
+      return i === j ? 1 : 0;
+    });
+  });
+  // res.map((nestedArray, index) => {
+  //   const nestedArr = nestedArray;
+  //   const el = 1;
+  //   nestedArr[index] = el;
+
+  //   return el;
+  // });
+  return res;
 }
+getIdentityMatrix(3);
 
 /**
  * Returns an array containing indices of odd elements in the input array.
@@ -522,9 +535,19 @@ function getHexRGBValues(/* arr */) {
  *   getMaxItems([ 10, 2, 7, 5, 3, -5 ], 3) => [ 10, 7, 5 ]
  *   getMaxItems([ 10, 10, 10, 10 ], 3) => [ 10, 10, 10 ]
  */
-function getMaxItems(/* arr, n */) {
-  throw new Error('Not implemented');
+function getMaxItems(arr, n) {
+  const max = Math.max(...arr);
+  const maxArr = [max];
+  if (max === -Infinity) {
+    return [];
+  }
+  if (n > 0) {
+    arr.splice(arr.indexOf(max), 1);
+    return maxArr.concat(getMaxItems(arr, n - 1));
+  }
+  return [];
 }
+getMaxItems([10, 2, 7, 5, 3, -5], 3);
 
 /**
  * Finds and returns an array containing only the common elements found in two arrays.
