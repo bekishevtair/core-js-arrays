@@ -43,16 +43,12 @@ getIntervalArray(-2, 5);
  *    sumArrays([-1, 0, 1], [1, 2, 3, 4]) => [0, 2, 4, 4]
  */
 function sumArrays(arr1, arr2) {
-  const newArr = arr1.map((el, index) => {
-    return el + arr2[index];
-  });
-  if (arr1.length > arr2.length) {
-    newArr.push(arr1[arr1.length - 1]);
-  } else if (arr1.length < arr2.length) {
-    newArr.push(arr2[arr2.length - 1]);
-  }
-  // console.log(newArr);
-  return newArr;
+  const maxLength = Math.max(arr1.length, arr2.length);
+
+  return Array.from(
+    { length: maxLength },
+    (_, index) => (arr1[index] || 0) + (arr2[index] || 0)
+  );
 }
 sumArrays([1, 2, 3], [4, 5, 6, 10]);
 
@@ -341,10 +337,9 @@ function flattenArray(nestedArray) {
  *   selectMany([[1, 2], [3, 4], [5, 6]], (x) => x) =>   [ 1, 2, 3, 4, 5, 6 ]
  *   selectMany(['one','two','three'], (x) => x.split('')) =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
-function selectMany(/* arr, childrenSelector */) {
-  throw new Error('Not implemented');
+function selectMany(arr, childrenSelector) {
+  return arr.flatMap(childrenSelector);
 }
-
 /**
  * Every month, you record your income and expenses.
  * Expenses may be greater than income.
@@ -438,17 +433,13 @@ getElementByIndices([[[1, 2, 3]]], [1, 0, 1]);
  *  getFalsyValuesCount([ null, undefined, NaN, false, 0, '' ]) => 6
  */
 function getFalsyValuesCount(arr) {
-  let count = 0;
   if (arr.length) {
-    arr.forEach((el) => {
-      if (!!el === false) {
-        count += 1;
-      }
-    });
+    const newArr = arr.filter((el) => !!el !== false);
+    return arr.length - newArr.length;
   }
-  return count;
+  return 0;
 }
-getFalsyValuesCount([-1, 'false', null, 0]);
+getFalsyValuesCount([-1, '', null, 0]);
 
 /**
  * Creates an identity matrix of the specified size.
@@ -497,13 +488,12 @@ getIdentityMatrix(3);
  *    getIndicesOfOddNumbers([11, 22, 33, 44, 55]) => [0, 2, 4]
  */
 function getIndicesOfOddNumbers(numbers) {
-  const idArr = [];
-  numbers.forEach((n, id) => {
-    if (n % 2 !== 0) {
-      idArr.push(id);
+  return numbers.reduce((indices, number, index) => {
+    if (number % 2 !== 0) {
+      indices.push(index);
     }
-  });
-  return idArr;
+    return indices;
+  }, []);
 }
 getIndicesOfOddNumbers([11, 22, 33, 44, 55]);
 
@@ -517,8 +507,11 @@ getIndicesOfOddNumbers([11, 22, 33, 44, 55]);
  *    getHexRGBValues([ 0, 255, 16777215]) => [ '#000000', '#0000FF', '#FFFFFF' ]
  *    getHexRGBValues([]) => []
  */
-function getHexRGBValues(/* arr */) {
-  throw new Error('Not implemented');
+function getHexRGBValues(arr) {
+  return arr.map((value) => {
+    const hexValue = value.toString(16).toUpperCase().padStart(6, '0');
+    return `#${hexValue}`;
+  });
 }
 
 /**
@@ -562,15 +555,7 @@ getMaxItems([10, 2, 7, 5, 3, -5], 3);
  *    findCommonElements([1, 2, 3], ['a', 'b', 'c']) => []
  */
 function findCommonElements(arr1, arr2) {
-  const newArr = [];
-  arr1.forEach((el) => {
-    arr2.forEach((el2) => {
-      if (el === el2) {
-        newArr.push(el);
-      }
-    });
-  });
-  return newArr;
+  return arr1.filter((el) => arr2.includes(el));
 }
 findCommonElements(['a', 'b', 'c'], ['b', 'c', 'd']);
 
@@ -661,8 +646,21 @@ function shiftArray(arr, n) {
  *   sortDigitNamesByNumericOrder([ 'nine','eight','nine','eight' ]) => [ 'eight','eight','nine','nine']
  *   sortDigitNamesByNumericOrder([ 'one','one','one','zero' ]) => [ 'zero','one','one','one' ]
  */
-function sortDigitNamesByNumericOrder(/* arr */) {
-  throw new Error('Not implemented');
+function sortDigitNamesByNumericOrder(arr) {
+  const digitOrder = [
+    'zero',
+    'one',
+    'two',
+    'three',
+    'four',
+    'five',
+    'six',
+    'seven',
+    'eight',
+    'nine',
+  ];
+
+  return arr.sort((a, b) => digitOrder.indexOf(a) - digitOrder.indexOf(b));
 }
 
 /**
